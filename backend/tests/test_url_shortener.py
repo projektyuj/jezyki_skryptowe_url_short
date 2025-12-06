@@ -1,6 +1,6 @@
 import pytest
 
-from backend.src.utlis.id_generator import IdGenerator
+from src.utlis.id_generator import IdGenerator
 
 def test_id_generator_test():
     length = 5

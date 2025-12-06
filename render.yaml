@@ -11,7 +11,7 @@ projects:
             autoDeployTrigger: commit
             repo: https://github.com/projektyuj/jezyki_skryptowe_url_short
             buildCommand: pip install -r backend/requirements.txt
-            startCommand: gunicorn -w 2 -b 0.0.0.0:$PORT backend.app:app
+            startCommand: gunicorn -w 2 -b 0.0.0.0:$PORT backend.src.app:app
             healthCheckPath: /health
             envVars:
               - key: PYTHON_VERSION
@@ -40,7 +40,7 @@ projects:
             branch: main
             autoDeployTrigger: commit
             buildCommand: pip install -r backend/requirements.txt
-            startCommand: gunicorn -w 2 -b 0.0.0.0:$PORT backend.app:app
+            startCommand: gunicorn -w 2 -b 0.0.0.0:$PORT backend.src.app:app
             healthCheckPath: /health
             envVars:
               - key: PYTHON_VERSION
