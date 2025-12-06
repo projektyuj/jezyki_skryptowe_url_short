@@ -4,12 +4,10 @@ from flask_cors import CORS
 from routers.router import all_blueprints
 
 def create_app() -> Flask:
-    cfg = Config.get_instance()
-
     app = Flask(__name__)
 
     # CORS
-    if cfg.cors_allow_all:
+    if True:
         CORS(app)
     else:
         origins = [o.strip() for o in cfg.cors_origins.split(",") if o.strip()]
