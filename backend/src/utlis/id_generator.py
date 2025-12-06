@@ -1,4 +1,4 @@
-from backend.src.decorators import singleton
+from src.decorators import singleton
 import string
 
 @singleton
