@@ -1,4 +1,6 @@
 from src.decorators import singleton
+from database.db_service import MongoDBService
+from decorators import singleton
 import string
 
 @singleton
@@ -7,7 +9,9 @@ class IdGenerator:
         self.CHARS = string.digits + string.ascii_uppercase
         self.id = "0" * length
         self.length = length
-    
+        MongoDBService_instance = MongoDBService.get_instance()
+        self.id = MongoDBService_instance.get_last_id()
+
     def next_id(self) -> str:
         num = self.__str_to_int(self.id) + 1
         self.id = self.__int_to_str(num)
