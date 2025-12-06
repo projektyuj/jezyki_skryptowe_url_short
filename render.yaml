@@ -5,9 +5,9 @@ projects:
         services:
           - type: web
             plan: free
-            name: jezyki_skryptowe_url_short_backend
+            name: jezyki_skryptowe_url_short_backend-dev
             runtime: python
-            branch: main
+            branch: dev
             autoDeployTrigger: commit
             repo: https://github.com/projektyuj/jezyki_skryptowe_url_short
             buildCommand: pip install -r backend/requirements.txt
@@ -20,10 +20,42 @@ projects:
                 value: "true"
 
           - type: web
-            name: jezyki_skryptowe_url_short_frontend
+            name: jezyki_skryptowe_url_short_frontend-dev
             runtime: static
             repo: https://github.com/kierasuj/jezyki_skryptowe_url_short
-            branch: main
+            branch: dev
             autoDeployTrigger: commit
             buildCommand: cd frontend && npm install && npm run build
             staticPublishPath: frontend/dist
+            envVars:
+              - key: VITE_API_BASE_URL_PROD
+                value: https://<backend-dev-host>
+  - name: Production
+    services:
+      - type: web
+        plan: free
+        name: jezyki_skryptowe_url_short_backend
+        runtime: python
+        repo: https://github.com/projektyuj/jezyki_skryptowe_url_short
+        branch: main
+        autoDeployTrigger: commit
+        buildCommand: pip install -r backend/requirements.txt
+        startCommand: gunicorn -w 2 -b 0.0.0.0:$PORT backend.app:app
+        healthCheckPath: /health
+        envVars:
+          - key: PYTHON_VERSION
+            value: 3.14.0
+          - key: CORS_ALLOW_ALL
+            value: "true"
+
+      - type: web
+        name: jezyki_skryptowe_url_short_frontend
+        runtime: static
+        repo: https://github.com/projektyuj/jezyki_skryptowe_url_short
+        branch: main
+        autoDeployTrigger: commit
+        buildCommand: cd frontend && npm install && npm run build
+        staticPublishPath: frontend/dist
+        envVars:
+          - key: VITE_API_BASE_URL_PROD
+            value: https://<backend-dev-host>
