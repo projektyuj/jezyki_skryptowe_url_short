@@ -1,4 +1,4 @@
-from database.db_service import MongoDBService
+from ..database.db_service import MongoDBService
 
 
 def get_metrics(id: str):

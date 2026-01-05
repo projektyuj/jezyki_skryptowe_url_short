@@ -1,5 +1,5 @@
-from database.db_service import MongoDBService
-from utlis.id_generator import IdGenerator
+from ..database.db_service import MongoDBService
+from ..utlis.id_generator import IdGenerator
 from .metrics_controller import (
     create_metrics,
     increment_metrics,
