@@ -1,3 +1,5 @@
+from flask import jsonify
+
 from decorators import singleton
 from pymongo import MongoClient
 
@@ -23,7 +25,7 @@ class MongoDBService:
     def get_metrics(self, id: str):
         collection = self.db_client["shortener"]["metrics"]
         metrics_collection = collection.find_one({"id": id})
-        return metrics_collection
+        return { "id": metrics_collection.get("id"), "visits": metrics_collection.get("visits") }
 
     def create_metrics(self, id: str):
         collection = self.db_client["shortener"]["metrics"]
@@ -36,6 +38,12 @@ class MongoDBService:
     def save_url(self, id: str, original_url: str):
         collection = self.db_client["shortener"]["urls"]
         collection.insert_one({"id": id, "original_url": original_url})
+
+    def get_last_id(self):
+        collection = self.db_client["shortener"]["urls"]
+        last_item = collection.find_one(sort=[("id", -1)])
+        if last_item:
+            return last_item["id"]
     
     def close_connection(self):
         self.db_client.close()
