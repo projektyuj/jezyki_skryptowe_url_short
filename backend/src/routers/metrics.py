@@ -1,5 +1,5 @@
 from flask import Blueprint, request
-from controllers.metrics_controller import get_metrics
+from src.controllers.metrics_controller import get_metrics
 
 metrics_router = Blueprint("metrics", __name__)
 
