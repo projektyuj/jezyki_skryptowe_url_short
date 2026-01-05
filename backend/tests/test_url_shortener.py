@@ -1,5 +1,11 @@
 import pytest
 
+@pytest.fixture(autouse=True)
+def patch_mongo(monkeypatch):
+    def fake_last_id(db):
+        return "00000"
+    monkeypatch.setattr('src.utlis.id_generator.IdGenerator._last_id', fake_last_id)
+
 from src.utlis.id_generator import IdGenerator
 
 def test_id_generator_test():
