@@ -1,6 +1,6 @@
 from flask import jsonify
 
-from src.decorators import singleton
+from ..decorators import singleton
 from pymongo import MongoClient
 
 @singleton

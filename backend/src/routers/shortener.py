@@ -1,5 +1,5 @@
 from flask import Blueprint, request
-from controllers.shortener_controller import (
+from ..controllers.shortener_controller import (
     get_url,
     save_url,
 )

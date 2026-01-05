@@ -1,6 +1,5 @@
-from src.decorators import singleton
-from src.database.db_service import MongoDBService
-from src.decorators import singleton
+from ..decorators import singleton
+from ..database.db_service import MongoDBService
 import string
 
 @singleton
