@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Run backend tests with pytest from ops package
 SCRIPT_DIR=$(cd "$(dirname "$0")" && pwd)
 BACKEND_DIR=$(cd "$SCRIPT_DIR/../../backend" && pwd)
 PROJECT_ROOT=$(cd "$BACKEND_DIR/.." && pwd)
@@ -16,4 +15,4 @@ pip install --upgrade pip >/dev/null
 pip install -r "$BACKEND_DIR/requirements.txt"
 
 export PYTHONPATH="$PROJECT_ROOT"
-pytest -q backend/tests
+python -m pytest backend/tests
