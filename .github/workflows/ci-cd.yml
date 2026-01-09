@@ -42,11 +42,15 @@ jobs:
       steps:
         - uses: actions/checkout@v4
         - name: Deploy DEV
-          if: github.ref == 'refs/heads/dev'
-          run: curl -X POST ${{ secrets.RENDER_BACKEND_DEV_HOOK }}
+          if: github.ref == 'refs/heads/main'
+          env:
+            deploy_url: ${{ secrets.RENDER_BACKEND_DEV_HOOK }}
+          run: curl "$deploy_url"
         - name: Deploy PROD
           if: github.ref == 'refs/heads/dev'
-          run: curl -X POST ${{ secrets.RENDER_BACKEND_HOOK }}
+          env:
+            deploy_url: ${{ secrets.RENDER_BACKEND_HOOK }}
+          run: curl "$deploy_url"
 
   smoke_tests:
     name: Smoke Tests
