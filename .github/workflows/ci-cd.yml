@@ -33,3 +33,19 @@ jobs:
           python-version: '3.14'
       - name: Run unit tests
         run: bash scripts/backend/test.sh
+
+  deploy:
+    name: deploy
+
+  smoke_tests:
+    name: Smoke Tests
+    runs-on: ubuntu-latest
+    needs: deploy
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python 3.14
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.14'
+      - name: Run smoke tests
+        run: bash scripts/backend/smoke_test.sh
