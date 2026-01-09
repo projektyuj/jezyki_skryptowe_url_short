@@ -35,16 +35,18 @@ jobs:
         run: bash scripts/backend/test.sh
 
   deploy:
-    name: deploy
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: Set up Python 3.14
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.14'
-      - name: Run unit tests
-        run: bash scripts/backend/test.sh
+      name: Deploy to Render
+      runs-on: ubuntu-latest
+      if: github.event_name == 'push' && (github.ref == 'refs/heads/dev' || github.ref == 'refs/heads/main')
+      needs: build
+      steps:
+        - uses: actions/checkout@v4
+        - name: Deploy DEV
+          if: github.ref == 'refs/heads/dev'
+          run: curl -X POST ${{ secrets.RENDER_BACKEND_DEV_HOOK }}
+        - name: Deploy PROD
+          if: github.ref == 'refs/heads/dev'
+          run: curl -X POST ${{ secrets.RENDER_BACKEND_HOOK }}
 
   smoke_tests:
     name: Smoke Tests
