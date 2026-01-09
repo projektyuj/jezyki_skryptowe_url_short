@@ -4,7 +4,7 @@ import string
 
 @singleton
 class IdGenerator:
-    def _last_id():
+    def _last_id(self):
         MongoDBService_instance = MongoDBService.get_instance()
         return MongoDBService_instance.get_last_id()
         
