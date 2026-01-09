@@ -13,6 +13,8 @@ GET /url/{id} - do sprawdzenia url na podstawie id
 
 POST /url body: {"url": "string"} - dodanie własnego urla
 
+GET /health - do smoketestów
+
 ## Uwagi
 Korzystamy z mongodb atlas.
 
