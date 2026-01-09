@@ -44,13 +44,17 @@ jobs:
         - name: Deploy DEV
           if: github.ref == 'refs/heads/main'
           env:
-            deploy_url: ${{ secrets.RENDER_BACKEND_DEV_HOOK }}
-          run: curl "$deploy_url"
+            deploy_url_backend: ${{ secrets.RENDER_BACKEND_DEV_HOOK }}
+            deploy_url_frontend: ${{ secrets.RENDER_FRONTEND_DEV_HOOK }}
+          run: curl "$deploy_url_backend"
+          run: curl "$deploy_url_frontend"
         - name: Deploy PROD
           if: github.ref == 'refs/heads/dev'
           env:
-            deploy_url: ${{ secrets.RENDER_BACKEND_HOOK }}
-          run: curl "$deploy_url"
+            deploy_url_backend: ${{ secrets.RENDER_BACKEND_HOOK }}
+            deploy_url_frontend: ${{ secrets.RENDER_FRONTEND_HOOK }}
+          run: curl "$deploy_url_backend"
+          run: curl "$deploy_url_frontend"
 
   smoke_tests:
     name: Smoke Tests
