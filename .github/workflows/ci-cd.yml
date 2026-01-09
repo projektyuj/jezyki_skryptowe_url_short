@@ -36,6 +36,7 @@ jobs:
 
   deploy:
     name: deploy
+    runs-on: ubuntu-latest
 
   smoke_tests:
     name: Smoke Tests
