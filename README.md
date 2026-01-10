@@ -47,14 +47,14 @@ backend/
 
 ## Endpointy i kody HTTP
 
-| Metoda | Endpoint                 | Opis                                | Kod HTTP |
-|--------|-------------------------|------------------------------------|----------|
-| GET    | /health                  | Sprawdza stan serwera               | 200      |
-| POST   | /url                     | Tworzy nowy skrócony URL            | 201      |
-| GET    | /url/<id>                | Pobiera oryginalny URL              | 200 / 404|
-| DELETE | /url/<id>                | Usuwa skrócony URL (demo)           | 200      |
-| POST   | /url/<id>/custom         | Tworzy URL z własnym ID             | 201      |
-| GET    | /metrics/<id>            | Pobiera liczbę odwiedzin            | 200 / 404|
+| Metoda | Endpoint                 | Opis                         | Kod HTTP |
+|--------|-------------------------|------------------------------|----------|
+| GET    | /health                  | Sprawdza stan serwera        | 200      |
+| POST   | /url                     | Tworzy nowy skrócony URL     | 201      |
+| GET    | /url/<id>                | Pobiera oryginalny URL       | 200 / 404|
+| DELETE | /url/<id>                | Usuwa skrócony URL           | 200      |
+| POST   | /url/<id>/custom         | Tworzy URL z własnym ID      | 201      |
+| GET    | /metrics/<id>            | Pobiera liczbę odwiedzin     | 200 / 404|
 
 ---
 
@@ -161,7 +161,6 @@ src/
   - `getLink(id)` – GET do `/:id`  
   - `getStats(id)` – GET do `/statistics/:id`  
 
-> Uwaga: aktualnie obsługa JSON i błędów jest minimalna i wymaga dopracowania.
 
 ---
 
@@ -198,9 +197,6 @@ Projekt jest skonfigurowany do automatycznego deployu na platformie **Render** p
 ## Backend
 
 - Repozytorium: `https://github.com/projektyuj/jezyki_skryptowe_url_short`
-- Branchy:
-  - `dev` – środowisko developerskie
-  - `main` – produkcja
 - Runtime: Python
 - Build: `pip install -r backend/requirements.txt`
 - Start: `gunicorn -w 2 -b 0.0.0.0:$PORT backend.src.app:app`
@@ -214,13 +210,10 @@ Projekt jest skonfigurowany do automatycznego deployu na platformie **Render** p
 ## Frontend
 
 - Repozytorium: `https://github.com/kierasuj/jezyki_skryptowe_url_short`
-- Branchy:
-  - `dev` – środowisko developerskie
-  - `main` – produkcja
 - Runtime: static site
 - Build: `cd frontend && npm install && npm run build`
 - Publikacja: folder `frontend/dist`
 - Automatyczny deploy przy commitach (`autoDeployTrigger: commit`)
 - Zmienna środowiskowa dla API: `VITE_API_BASE_URL_PROD` ustawiona na URL backendu
 
-> Frontend i backend są deployowane niezależnie, ale frontend wymaga działającego backendu, aby generować skrócone linki i pobierać statystyki.
+> Frontend i backend są deployowane niezależnie, ale frontend wymaga działającego backendu.
