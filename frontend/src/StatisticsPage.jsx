@@ -1,19 +1,30 @@
-import { useState } from 'react';
+import {useEffect, useState} from 'react';
+import {getStats} from './_requests';
+import {useParams} from 'react-router';
 
 export default function StatisticsPage() {
     const [count, setCount] = useState('');
     const [err, setErr] = useState('');
-    //input link, formik form
-    //add mobile , increase font, move button lower, increase input size
+    const {id} = useParams();
+
+    useEffect(() => {
+        getStats(id)
+            .then((res) => res.json())
+            .then(({visits}) => {
+                setCount(visits);
+            })
+            .catch((e) => setErr(e?.message ?? 'error'));
+    }, [id]);
+
     const showError = err && (
         <div>
-            <span className='text-error'>{err}</span>
+            <span className="text-error">{err}</span>
         </div>
     );
     return (
-        <div className='container'>
-            <span className='header'> URL statistics </span>
-            <div className='container-generate'>Link has been clicked: {count}</div>
+        <div className="container">
+            <span className="header"> URL statistics </span>
+            <div className="container-generate">Link has been clicked: {count}</div>
             {showError}
         </div>
     );
