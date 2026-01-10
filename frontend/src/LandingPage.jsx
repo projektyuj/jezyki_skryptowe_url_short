@@ -1,11 +1,11 @@
-import { useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
-import { createLink } from './_requests';
+import {useState} from 'react';
+import {useForm} from 'react-hook-form';
+import {zodResolver} from '@hookform/resolvers/zod';
+import {z} from 'zod';
+import {createLink} from './_requests';
 
 const schema = z.object({
-    link: z.httpUrl({ message: 'Incorrect URL' }),
+    url: z.httpUrl({message: 'Incorrect URL'}),
 });
 
 export default function LandingPage() {
@@ -14,37 +14,47 @@ export default function LandingPage() {
     const {
         register,
         handleSubmit,
-        formState: { errors, isValid },
+        formState: {errors, isValid},
     } = useForm({
         defaultValues: {
-            link: 'https://',
+            url: 'https://',
         },
         resolver: zodResolver(schema),
-        mode: 'onChange'
+        mode: 'onChange',
     });
 
-    //fetching error
     const showError = err && (
         <div>
-            <span className='text-error'>{err}</span>
+            <span className="text-error">{err}</span>
         </div>
     );
 
-    const onSubmit = async ({link} ) => {
-        createLink({link}).then(res => setShortUrl(res)).catch(e => setErr(e?.message ?? 'error'));
-    }
+    const onSubmit = async ({url}) => {
+        const body = {url};
+        createLink(body)
+            .then(async (res) => {
+                const json = await res.json();
+
+                console.log(json.url);
+                setShortUrl(json.url);
+            })
+            .catch((e) => setErr(e?.message ?? 'error'));
+    };
+
+    const location = window.location.href.split('generate')[0];
+
     return (
-        <div className='container'>
-            <span className='header'> URL shortener </span>
-            {shortUrl && <a className='header'>{shortUrl}</a>}
-            
-            <form className='container-generate' onSubmit={handleSubmit(onSubmit)}>
-                <input className='input' {...register('link')} />
-                <button className='button' type='submit' disabled={!isValid}>
+        <div className="container">
+            <span className="header"> URL shortener </span>
+            {shortUrl && <a className="header">{`${location}${shortUrl}`}</a>}
+
+            <form className="container-generate" onSubmit={handleSubmit(onSubmit)}>
+                <input className="input" {...register('url')} />
+                <button className="button" type="submit" disabled={!isValid}>
                     Generate url
                 </button>
             </form>
-            {errors.link && <p className='text-error'>{errors.link.message}</p>}
+            {errors.url && <p className="text-error">{errors.url.message}</p>}
             {showError}
         </div>
     );
